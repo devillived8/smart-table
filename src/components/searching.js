@@ -4,7 +4,6 @@ export function initSearching(searchField) {
     // @todo: #5.1 — настроить компаратор
     
     // Создаём компаратор с правилами для поиска
-    // Используем skipEmptyTargetValues и searchMultipleFields
     const compare = createComparison({
         skipEmptyTargetValues: true,
         searchMultipleFields: rules.searchMultipleFields(searchField, ['date', 'customer', 'seller'], false)
@@ -13,8 +12,13 @@ export function initSearching(searchField) {
     return (data, state, action) => {
         // @todo: #5.2 — применить компаратор
         
-        // Если нет данных или нет состояния — возвращаем всё
-        if (!data || !state) {
+        // Если нет данных — возвращаем пустой массив
+        if (!data) {
+            return [];
+        }
+        
+        // Если нет состояния — возвращаем все данные
+        if (!state) {
             return data;
         }
         
@@ -26,7 +30,12 @@ export function initSearching(searchField) {
             return data;
         }
         
+        // Создаём объект ТОЛЬКО с полем поиска для компаратора
+        const searchState = {
+            [searchField]: searchValue.trim()
+        };
+        
         // Применяем компаратор для фильтрации данных
-        return data.filter(row => compare(row, state));
+        return data.filter(row => compare(row, searchState));
     }
 }
