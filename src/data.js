@@ -10,5 +10,10 @@ export function initData(sourceData) {
         customer: customers[item.customer_id],
         total: item.total_amount
     }));
+
+
+      console.log('Первая запись:', data[0]);
+    console.log('Тип seller:', typeof data[0].seller);
+    console.log('Тип customer:', typeof data[0].customer);
     return {sellers, customers, data};
 }
