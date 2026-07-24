@@ -14,6 +14,13 @@ export function initFiltering(elements) {
 
   const applyFiltering = (query, state, action) => {
     // @todo: #4.5 — отфильтровать данные, используя компаратор
+
+    if (action && action.name === "clear") {
+      const input = action.parentElement.querySelector("input");
+      input.value = "";
+      state[action.dataset.field] = "";
+    }
+
     const filter = {};
     Object.keys(elements).forEach((key) => {
       if (elements[key]) {
